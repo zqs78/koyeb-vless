@@ -16,7 +16,7 @@ def create_app():
     return app
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 8080))
+    port = int(os.environ.get('PORT', 8000))  # 修正为8000端口
     app = create_app()
     
     print(f"🩺 启动健康检查服务...")
