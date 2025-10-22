@@ -9,7 +9,7 @@ services:
     max: 2
   healthcheck:
     path: /
-    port: 8080  # 改为健康检查服务的端口
+    port: 8000  # 修正为正确的8000端口
     initial_delay: 30
     period: 10
     timeout: 5
