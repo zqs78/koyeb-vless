@@ -7,6 +7,6 @@ echo "🚀 启动 Xray VLESS 服务..."
 # 等待 Xray 启动
 sleep 5
 
-# 启动健康检查服务
+# 启动健康检查服务（使用main.py）
 echo "🩺 启动健康检查服务..."
-python3 health_check.py
+python3 main.py
