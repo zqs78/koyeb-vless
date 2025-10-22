@@ -34,26 +34,44 @@ async def health_check(request):
     return web.json_response({"status": "ok"})
 
 def print_node_info():
-    """打印VLESS节点信息 - 新增的功能"""
+    """打印VLESS节点信息 - 修正版本"""
+    # 尝试从环境变量获取域名，如果获取不到则提示用户手动填写
+    koyeb_service_domain = os.environ.get('KOYEB_SERVICE_DOMAIN', '')
+    if not koyeb_service_domain:
+        # 尝试从其他环境变量获取
+        koyeb_service_domain = os.environ.get('KOYEB_SERVICE_FQDN', '')
+    
     print("\n" + "="*60)
     print("🎯 VLESS节点配置信息（请复制以下信息到客户端）")
     print("="*60)
-    print(f"📍 地址(address): 你的域名.koyeb.app")
-    print(f"🔢 端口(port): 443")
-    print(f"🔑 用户ID(UUID): {UUID}")
-    print(f"🌐 传输协议(network): ws")
-    print(f"🛣️  路径(path): /")
-    print(f"🔒 传输安全(security): tls")
-    print(f"📋 协议(protocol): vless")
-    print("-"*60)
     
-    # 生成VLESS链接（需要用户自己填写域名）
-    vless_link = f"vless://{UUID}@你的域名.koyeb.app:443?security=tls&type=ws&path=%2F#Koyeb-VLESS"
-    print("🔗 VLESS链接格式：")
-    print(vless_link)
-    print("\n💡 使用方法：")
-    print("1. 将上面的链接中的 '你的域名' 替换为Koyeb分配的实际域名")
-    print("2. 将完整链接复制到V2Ray客户端使用")
+    if koyeb_service_domain:
+        print(f"📍 地址(address): {koyeb_service_domain}")
+        print(f"🔢 端口(port): 33333")  # 修正为实际监听端口
+        print(f"🔑 用户ID(UUID): {UUID}")
+        print(f"🌐 传输协议(network): ws")
+        print(f"🛣️  路径(path): /")
+        print(f"🔒 传输安全(security): tls")
+        print(f"📋 协议(protocol): vless")
+        print("-"*60)
+        
+        # 生成VLESS链接
+        vless_link = f"vless://{UUID}@{koyeb_service_domain}:33333?security=tls&type=ws&path=%2F#Koyeb-VLESS"
+        print("🔗 VLESS链接：")
+        print(vless_link)
+    else:
+        print("⚠️  无法自动获取域名，请手动填写：")
+        print(f"📍 地址(address): [请在Koyeb控制台查找你的域名]")
+        print(f"🔢 端口(port): 33333")  # 修正为实际监听端口
+        print(f"🔑 用户ID(UUID): {UUID}")
+        print(f"🌐 传输协议(network): ws")
+        print(f"🛣️  路径(path): /")
+        print(f"🔒 传输安全(security): tls")
+        print("\n💡 使用方法：")
+        print("1. 登录Koyeb控制台，找到你的服务域名")
+        print("2. 将域名填入上面的地址字段")
+        print("3. 使用上述参数配置客户端")
+    
     print("="*60)
 
 def create_app():
