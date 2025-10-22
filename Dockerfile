@@ -1,30 +1,22 @@
-FROM debian:bullseye-slim
+FROM alpine:latest
 
 # 安装基础工具
-RUN apt-get update && apt-get install -y \
+RUN apk update && apk add --no-cache \
     wget \
     unzip \
-    ca-certificates \
     python3 \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/*
+    py3-pip \
+    ca-certificates
 
-# 检测架构并下载正确的 Xray 版本
-RUN ARCH=$(uname -m) && \
-    if [ "$ARCH" = "x86_64" ]; then \
-        wget -q https://github.com/XTLS/Xray-core/releases/download/v1.8.4/Xray-linux-64.zip -O xray.zip; \
-    elif [ "$ARCH" = "aarch64" ]; then \
-        wget -q https://github.com/XTLS/Xray-core/releases/download/v1.8.4/Xray-linux-arm64-v8a.zip -O xray.zip; \
-    else \
-        echo "Unsupported architecture: $ARCH" && exit 1; \
-    fi
+# 下载并安装 Xray（使用官方最新版本）
+RUN wget -q -O /tmp/xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip && \
+    unzip -q /tmp/xray.zip -d /tmp/ && \
+    mv /tmp/xray /usr/local/bin/ && \
+    chmod +x /usr/local/bin/xray && \
+    rm -rf /tmp/*
 
-# 解压并安装 Xray
-RUN unzip -q xray.zip && \
-    rm xray.zip && \
-    chmod +x xray && \
-    mv xray /usr/local/bin/ && \
-    ls -la /usr/local/bin/xray  # 验证文件存在
+# 验证安装
+RUN ls -la /usr/local/bin/xray && /usr/local/bin/xray version
 
 # 创建工作目录
 WORKDIR /app
