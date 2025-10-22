@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
 # 下载 Xray
 RUN wget -q https://github.com/XTLS/Xray-core/releases/download/v1.8.4/Xray-linux-64.zip \
     && unzip -q Xray-linux-64.zip \
+    && ls -la
     && rm Xray-linux-64.zip \
     && chmod +x xray \
     && mv xray /usr/local/bin/
