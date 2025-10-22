@@ -9,7 +9,7 @@ services:
     max: 2
   healthcheck:
     path: /
-    port: 33333
+    port: 8080  # 改为健康检查服务的端口
     initial_delay: 30
     period: 10
     timeout: 5
