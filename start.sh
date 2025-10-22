@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# 验证 Xray 文件存在
-echo "🔍 检查 Xray 二进制文件..."
+# 验证 Xray 安装
+echo "🔍 验证 Xray 安装..."
 ls -la /usr/local/bin/xray
+/usr/local/bin/xray version
 
 # 启动 Xray VLESS 服务
 echo "🚀 启动 Xray VLESS 服务..."
@@ -13,7 +14,7 @@ sleep 5
 
 # 检查 Xray 进程
 echo "🔍 检查 Xray 进程..."
-ps aux | grep xray
+ps aux
 
 # 启动健康检查服务
 echo "🩺 启动健康检查服务..."
