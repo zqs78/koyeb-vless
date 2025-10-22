@@ -5,6 +5,8 @@ RUN apt-get update && apt-get install -y \
     wget \
     unzip \
     ca-certificates \
+    python3 \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # 下载 Xray
@@ -19,6 +21,9 @@ WORKDIR /app
 
 # 复制文件
 COPY . .
+
+# 安装Python依赖
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # 创建配置目录
 RUN mkdir -p /etc/xray
