@@ -6,8 +6,7 @@ async def health_check(request):
     """健康检查端点"""
     return web.json_response({
         "status": "ok", 
-        "service": "xray-vless",
-        "version": "1.8.4"
+        "service": "xray-vless"
     })
 
 def create_app():
@@ -16,9 +15,9 @@ def create_app():
     return app
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 8000))  # 修正为8000端口
+    # 健康检查运行在 8000 端口
+    port = 8000
     app = create_app()
     
-    print(f"🩺 启动健康检查服务...")
-    print(f"📡 监听端口: {port}")
+    print(f"🩺 健康检查服务运行在端口: {port}")
     web.run_app(app, host='0.0.0.0', port=port)
