@@ -40,6 +40,9 @@ def print_node_info():
     if not koyeb_service_domain:
         # 尝试从其他环境变量获取
         koyeb_service_domain = os.environ.get('KOYEB_SERVICE_FQDN', '')
+        if not koyeb_service_domain:
+            # 如果还是获取不到，使用我们已知的域名
+            koyeb_service_domain = "religious-giacinta-mf5c9x1rio-c00bac2d.koyeb.app"
     
     print("\n" + "="*60)
     print("🎯 VLESS节点配置信息（请复制以下信息到客户端）")
@@ -81,7 +84,7 @@ def create_app():
     return app
 
 if __name__ == "__main__":
-    # 启动时打印节点信息
+    # 启动时打印节点信息 - 确保这行代码存在且没有被注释
     print_node_info()
     
     app = create_app()
