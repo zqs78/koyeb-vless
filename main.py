@@ -6,7 +6,7 @@ from aiohttp import web
 
 # ！！！重要：请务必更改这个UUID，不要使用默认的！！！
 # 你可以用这个命令在线生成一个：https://www.uuidgenerator.net/ 或者使用密码管理器生成
-UUID = "a0b1c2d3-e4f5-6789-abcd-ef1234567890"  # 请务必替换成你自己的UUID！
+UUID = "258751a7-eb14-47dc-8d18-511c3472220f"  # 请务必替换成你自己的UUID！
 
 async def handle_vless(request):
     reader = request.protocol._reader
