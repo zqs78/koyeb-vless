@@ -27,11 +27,13 @@ COPY config.json /etc/xray/config.json
 COPY main.py .
 COPY requirements.txt .
 
-# 安装Python依赖
-RUN pip3 install --no-cache-dir -r requirements.txt
+# 创建虚拟环境并安装Python依赖（修复pip安装问题）
+RUN python3 -m venv /app/venv && \
+    /app/venv/bin/pip install --upgrade pip && \
+    /app/venv/bin/pip install -r requirements.txt
 
 # 暴露端口
 EXPOSE 33333 8000
 
-# 启动命令（同时运行Xray和健康检查）
-CMD sh -c 'xray run -config /etc/xray/config.json & python3 main.py'
+# 启动命令（使用虚拟环境中的Python）
+CMD sh -c 'xray run -config /etc/xray/config.json & /app/venv/bin/python3 main.py'
