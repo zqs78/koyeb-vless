@@ -23,25 +23,15 @@ WORKDIR /app
 # 复制配置文件
 COPY config.json /etc/xray/config.json
 
-# 复制您的main.py文件
-COPY main.py /app/main.py
-
-# 安装Python依赖（如果有requirements.txt的话）
+# 复制健康检查脚本
+COPY main.py .
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
 
-# 创建xray运行用户
-RUN adduser -D -u 1000 xray
+# 安装Python依赖
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-# 切换用户
-USER xray
+# 暴露端口
+EXPOSE 33333 8000
 
-# 暴露端口（根据您的配置调整）
-EXPOSE 8080 8443
-
-# 健康检查（使用您原有的main.py）
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python3 /app/main.py
-
-# 启动命令
-CMD ["/usr/local/bin/xray", "run", "-config", "/etc/xray/config.json"]
+# 启动命令（同时运行Xray和健康检查）
+CMD sh -c 'xray run -config /etc/xray/config.json & python3 main.py'
