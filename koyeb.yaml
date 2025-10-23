@@ -4,5 +4,6 @@ services:
   ports:
   - port: 443
     protocol: TCP
+    target_port: 8080
   - port: 8000
     protocol: HTTP
