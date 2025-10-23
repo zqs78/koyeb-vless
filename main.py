@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 from aiohttp import web
-import asyncio
-import threading
+import os
 import time
 
-async def handle_health(request):
+async def health_check(request):
     return web.Response(text='OK')
 
-async def handle_status(request):
+async def status(request):
     return web.json_response({
-        "status": "ok", 
+        "status": "healthy",
         "service": "xray-vless",
-        "timestamp": time.time()
+        "timestamp": time.time(),
+        "xray_running": os.system("pgrep xray > /dev/null") == 0
     })
 
 def print_node_info():
@@ -36,27 +36,12 @@ vless://{uuid}@{domain}:443?type=ws&path=%2F&security=tls#Koyeb-VLESS
 """
     print(info)
 
-def run_web_app():
-    app = web.Application()
-    app.router.add_get('/', handle_health)
-    app.router.add_get('/status', handle_status)
-    
-    web.run_app(app, host='0.0.0.0', port=8000, print=None)
+app = web.Application()
+app.router.add_get('/', health_check)
+app.router.add_get('/status', status)
 
 if __name__ == "__main__":
     print("🔄 开始启动服务...")
     print_node_info()
-    
-    # 创建并启动web服务器线程
-    web_thread = threading.Thread(target=run_web_app, daemon=True)
-    web_thread.start()
-    
-    print("✅ 所有服务启动完成！")
-    
-    # 主线程保持运行
-    try:
-        while True:
-            time.sleep(60)
-            print("💓 服务运行中...")
-    except KeyboardInterrupt:
-        print("🛑 服务停止")
+    print("✅ 健康检查服务运行在端口: 8000")
+    web.run_app(app, host='0.0.0.0', port=8000, print=None)
