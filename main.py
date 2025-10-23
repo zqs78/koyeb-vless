@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 import subprocess
-import threading
 import time
 import os
 import signal
 import sys
+import asyncio
 from aiohttp import web
 
 # Xray进程
@@ -15,7 +15,7 @@ def start_xray():
     global xray_process
     print("📡 启动Xray服务...")
     
-    # 启动Xray进程
+    # 修改Xray配置，让它监听8080端口而不是8000端口
     xray_process = subprocess.Popen([
         "/usr/local/bin/xray", 
         "run", 
@@ -95,46 +95,40 @@ vless://{uuid}@{domain}:443?type=ws&path=%2F&security=tls#Koyeb-VLESS
 """
     print(info)
 
-async def web_app():
-    """启动Web服务"""
-    app = web.Application()
-    app.router.add_get('/', health_check)
-    app.router.add_get('/status', status)
-    
-    runner = web.AppRunner(app)
-    await runner.setup()
-    
-    site = web.TCPSite(runner, '0.0.0.0', 8000)
-    await site.start()
-    
-    print("✅ 健康检查服务运行在端口: 8000")
-    return runner
-
 async def main():
     """主函数"""
     print("🔄 开始启动服务...")
     print_node_info()
     
-    # 启动Xray服务
-    if not start_xray():
-        print("❌ 服务启动失败")
-        return
+    # 先启动Web服务（监听8000端口）
+    app = web.Application()
+    app.router.add_get('/', health_check)
+    app.router.add_get('/status', status)
     
-    # 启动Web服务
-    runner = await web_app()
+    print("✅ 健康检查服务运行在端口: 8000")
+    
+    # 启动Xray服务（监听8080端口）
+    if not start_xray():
+        print("❌ Xray服务启动失败，但健康检查服务继续运行")
+    
     print("✅ 所有服务启动完成！")
     
-    # 保持服务运行
+    # 启动Web服务（这会阻塞执行）
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, '0.0.0.0', 8000)
+    await site.start()
+    
+    # 保持服务运行，定期检查Xray状态
     try:
         while True:
             # 检查Xray进程状态
             if xray_process and xray_process.poll() is not None:
-                print("❌ Xray服务异常退出，正在重启...")
-                if not start_xray():
-                    print("❌ Xray服务重启失败")
-                    break
-            
-            await asyncio.sleep(10)
+                print("❌ Xray服务异常退出")
+                # 不自动重启，只记录日志
+                
+            await asyncio.sleep(30)
+            print("💓 服务运行中...")
     except KeyboardInterrupt:
         print("\n收到停止信号")
     finally:
@@ -144,5 +138,4 @@ async def main():
         print("✅ 服务已停止")
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
