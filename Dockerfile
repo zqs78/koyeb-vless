@@ -18,5 +18,11 @@ WORKDIR /app
 COPY . /app/
 RUN chmod +x /app/start.sh
 
-EXPOSE 8080 8000
+# 添加非root用户并设置权限
+RUN adduser -D -u 1000 xrayuser && \
+    chown -R xrayuser:xrayuser /app
+
+USER xrayuser
+
+EXPOSE 443 8000
 CMD ["/app/start.sh"]
