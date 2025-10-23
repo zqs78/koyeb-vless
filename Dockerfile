@@ -29,7 +29,7 @@ COPY start.sh .
 RUN chmod +x /app/start.sh
 
 # 暴露端口
-EXPOSE 8000 8080
+EXPOSE 8000
 
 # 使用启动脚本
 CMD ["/app/start.sh"]
