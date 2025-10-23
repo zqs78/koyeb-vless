@@ -8,10 +8,9 @@ async def health_check(request):
 
 async def status(request):
     return web.json_response({
-        "status": "healthy",
+        "status": "healthy", 
         "service": "xray-vless",
-        "timestamp": time.time(),
-        "xray_running": os.system("pgrep xray > /dev/null") == 0
+        "timestamp": time.time()
     })
 
 def print_node_info():
