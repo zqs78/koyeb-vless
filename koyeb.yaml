@@ -8,13 +8,8 @@ services:
       routes:
       - path: /
         port: 8000
-  - port: 17893
-    protocol: TCP
-    tcp:
-      proxy:
-        enabled: true
-      target:
-        port: 443
+      - path: /vless
+        port: 8000
   scaler:
     min: 1
     max: 1
