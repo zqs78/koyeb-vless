@@ -7,7 +7,7 @@ services:
     http:
       routes:
       - path: /
-        port: 8000
+        port: 8080
       - path: /vless
         port: 8000
   scaler:
@@ -15,7 +15,7 @@ services:
     max: 1
   healthcheck:
     path: /
-    port: 8000
+    port: 8080
     protocol: HTTP
     initial_delay: 30
     period: 10
