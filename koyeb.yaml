@@ -1,0 +1,27 @@
+name: vless-service
+services:
+- name: vless
+  ports:
+  - port: 443
+    protocol: HTTP
+    http:
+      routes:
+      - path: /
+        port: 8000
+  - port: 17893
+    protocol: TCP
+    tcp:
+      proxy:
+        enabled: true
+      target:
+        port: 17893
+  scaler:
+    min: 1
+    max: 1
+  healthcheck:
+    path: /
+    port: 8000
+    protocol: HTTP
+    initial_delay: 30
+    period: 10
+    timeout: 5
