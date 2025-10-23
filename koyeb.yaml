@@ -2,13 +2,12 @@ name: vless-service
 services:
 - name: vless
   ports:
-  - port: 443
-    protocol: HTTP
-    http:
-      routes:
-      - path: /
-        port: 8000
-      - path: /vless
+  - port: 17893
+    protocol: TCP
+    tcp:
+      proxy:
+        enabled: true
+      target:
         port: 8000
   scaler:
     min: 1
