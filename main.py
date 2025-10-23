@@ -3,6 +3,7 @@ from aiohttp import web
 import sys
 import time
 import subprocess
+import socket
 
 # 立即刷新输出
 sys.stdout.flush()
@@ -38,6 +39,15 @@ vless://{uuid}@{domain}:443?type=ws&path=%2Fvless&security=tls#Koyeb-VLESS
 """
     print(info, flush=True)
 
+def is_port_available(port):
+    """检查端口是否可用"""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        try:
+            s.bind(('0.0.0.0', port))
+            return True
+        except OSError:
+            return False
+
 def create_app():
     app = web.Application()
     app.router.add_get('/', health_check)
@@ -58,18 +68,25 @@ if __name__ == "__main__":
     ])
     
     # 等待Xray启动
-    time.sleep(2)
+    time.sleep(3)
     
-    # 启动健康检查服务
-    port = 8000
-    app = create_app()
+    # 尝试不同的端口启动健康检查服务
+    health_check_ports = [8080, 8081, 8082, 3000]
+    app = None
     
-    print(f"🩺 健康检查服务运行在端口: {port}")
-    print("✅ 所有服务启动完成！")
-    
-    try:
-        web.run_app(app, host='0.0.0.0', port=port, print=None)
-    finally:
-        # 确保Xray进程被终止
+    for port in health_check_ports:
+        if is_port_available(port):
+            app = create_app()
+            print(f"🩺 健康检查服务运行在端口: {port}")
+            print("✅ 所有服务启动完成！")
+            
+            try:
+                web.run_app(app, host='0.0.0.0', port=port, print=None)
+                break
+            except OSError as e:
+                print(f"❌ 端口 {port} 不可用: {e}")
+                continue
+    else:
+        print("❌ 所有健康检查端口都不可用！")
         xray_process.terminate()
         xray_process.wait()
