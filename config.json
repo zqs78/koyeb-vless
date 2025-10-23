@@ -4,7 +4,7 @@
   },
   "inbounds": [
     {
-      "port": 33333,
+      "port": 443,
       "protocol": "vless",
       "settings": {
         "clients": [
@@ -17,7 +17,7 @@
       },
       "streamSettings": {
         "network": "ws",
-        "security": "none",
+        "security": "tls",
         "wsSettings": {
           "path": "/",
           "headers": {
