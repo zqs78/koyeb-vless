@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 import subprocess
 import time
-import os
 import signal
 import sys
+import http.server
+import socketserver
+import threading
 
 # Xray进程
 xray_process = None
@@ -45,9 +47,30 @@ def signal_handler(sig, frame):
     stop_xray()
     sys.exit(0)
 
-# 注册信号处理
-signal.signal(signal.SIGINT, signal_handler)
-signal.signal(signal.SIGTERM, signal_handler)
+class HealthCheckHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(b'OK')
+        else:
+            self.send_response(404)
+            self.end_headers()
+    
+    def log_message(self, format, *args):
+        # 禁用日志输出
+        pass
+
+def start_health_check():
+    """启动健康检查服务"""
+    port = 8000
+    try:
+        with socketserver.TCPServer(("", port), HealthCheckHandler) as httpd:
+            print(f"✅ 健康检查服务运行在端口: {port}")
+            httpd.serve_forever()
+    except Exception as e:
+        print(f"❌ 健康检查服务启动失败: {e}")
 
 def print_node_info():
     """打印节点信息"""
@@ -75,11 +98,21 @@ vless://{uuid}@{domain}:443?type=ws&path=%2F&security=tls#Koyeb-VLESS
 def main():
     """主函数"""
     print("🔄 开始启动服务...")
+    
+    # 注册信号处理
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+    
     print_node_info()
+    
+    # 启动健康检查服务（在后台线程）
+    health_thread = threading.Thread(target=start_health_check)
+    health_thread.daemon = True
+    health_thread.start()
     
     # 启动Xray
     if not start_xray():
-        print("❌ Xray启动失败，退出")
+        print("❌ Xray启动失败")
         return
     
     print("✅ 所有服务启动完成！")
@@ -88,7 +121,7 @@ def main():
     try:
         while True:
             time.sleep(10)
-            if xray_process.poll() is not None:
+            if xray_process and xray_process.poll() is not None:
                 print("❌ Xray服务异常退出")
                 break
     except KeyboardInterrupt:
