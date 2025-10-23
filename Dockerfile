@@ -1,7 +1,6 @@
 FROM alpine:latest
 
 RUN apk update && apk add --no-cache \
-    python3 \
     curl \
     unzip
 
@@ -18,4 +17,4 @@ COPY . /app/
 
 EXPOSE 8000
 
-CMD ["python3", "/app/main.py"]
+CMD ["/app/start.sh"]
