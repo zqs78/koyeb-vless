@@ -18,7 +18,6 @@ RUN cd /tmp && \
 WORKDIR /app
 COPY . /app/
 
-EXPOSE 8000 9000
+EXPOSE 8000
 
-# 使用脚本启动服务
 CMD ["/app/start.sh"]
