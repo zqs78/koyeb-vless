@@ -28,11 +28,11 @@ def print_node_info():
 🔑 UUID: {uuid}
 🌐 协议: vless
 📡 传输: websocket
-🛣️  路径: /
-🔒 安全: tls (由Koyeb处理)
+🛣️  路径: /vless
+🔒 安全: tls
 ------------------------------------------------------------
 🔗 分享链接:
-vless://{uuid}@{domain}:443?type=ws&path=%2F&security=tls#Koyeb-VLESS
+vless://{uuid}@{domain}:443?type=ws&path=%2Fvless&security=tls#Koyeb-VLESS
 ============================================================
 """
     # 强制输出
@@ -41,6 +41,7 @@ vless://{uuid}@{domain}:443?type=ws&path=%2F&security=tls#Koyeb-VLESS
 def create_app():
     app = web.Application()
     app.router.add_get('/', health_check)
+    app.router.add_get('/vless', health_check)  # 也响应/vless路径
     return app
 
 if __name__ == "__main__":
