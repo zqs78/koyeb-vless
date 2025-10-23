@@ -1,6 +1,8 @@
 FROM alpine:latest
 
 RUN apk update && apk add --no-cache \
+    python3 \
+    py3-pip \
     curl \
     unzip
 
@@ -12,11 +14,12 @@ RUN cd /tmp && \
     chmod +x /usr/local/bin/xray && \
     rm -rf xray.zip geoip.dat geosite.dat
 
+# 安装Python依赖
+RUN pip3 install --no-cache-dir aiohttp
+
 WORKDIR /app
 COPY . /app/
 
-# 使用环境变量端口，避免低端口问题
-ENV PORT=8000
 EXPOSE 8000
 
-CMD ["/app/start.sh"]
+CMD ["python3", "/app/main.py"]
