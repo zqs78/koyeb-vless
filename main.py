@@ -11,7 +11,7 @@ async def health_check(request):
 
 def print_node_info():
     """打印节点信息"""
-    domain = "religious-giacinta-mf5c9x1rio-c00bac2d.koyeb.app"
+    domain = "useful-florette-u9duiccetr-daf26dc7.koyeb.app"
     uuid = "258751a7-eb14-47dc-8d18-511c3472220f"
     
     print("\n" + "="*60)
