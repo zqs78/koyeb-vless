@@ -1,7 +1,0 @@
-name: koyeb-vless
-services:
-- name: app
-  ports:
-  - port: 443
-    protocol: TCP
-    target_port: 8000
