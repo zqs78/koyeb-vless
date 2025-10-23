@@ -2,8 +2,7 @@ FROM alpine:latest
 
 RUN apk update && apk add --no-cache \
     curl \
-    unzip \
-    libcap
+    unzip
 
 # 安装xray-core
 RUN cd /tmp && \
@@ -13,11 +12,11 @@ RUN cd /tmp && \
     chmod +x /usr/local/bin/xray && \
     rm -rf xray.zip geoip.dat geosite.dat
 
-# 赋予Xray绑定低端口权限
-RUN setcap 'cap_net_bind_service=+ep' /usr/local/bin/xray
-
 WORKDIR /app
 COPY . /app/
+
+# 明确使用root用户
+USER root
 
 EXPOSE 443
 
