@@ -1,4 +1,3 @@
-# 使用包含完整环境的基础镜像
 FROM alpine:latest
 
 # 安装必要的软件包
@@ -23,9 +22,13 @@ WORKDIR /app
 # 复制文件
 COPY config.json /etc/xray/config.json
 COPY main.py .
+COPY start.sh .
+
+# 赋予启动脚本执行权限
+RUN chmod +x start.sh
 
 # 暴露端口
-EXPOSE 443 8000
+EXPOSE 8080 8000
 
-# 直接使用CMD命令启动，避免脚本问题
-CMD sh -c "echo '启动Xray服务...' && xray run -config /etc/xray/config.json & echo '启动Python健康检查...' && python3 main.py"
+# 使用启动脚本
+CMD ["./start.sh"]
