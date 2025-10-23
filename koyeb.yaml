@@ -2,7 +2,7 @@ name: vless-service
 services:
 - name: vless
   ports:
-  - port: 443
+  - port: 17893
     protocol: TCP
     tcp:
       proxy:
@@ -14,6 +14,6 @@ services:
     path: /
     port: 8000
     protocol: HTTP
-    initial_delay: 30
-    period: 10
-    timeout: 5
+    initial_delay: 60  # 增加初始延迟
+    period: 15         # 增加检查间隔
+    timeout: 10        # 增加超时时间
