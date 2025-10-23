@@ -15,9 +15,6 @@ RUN cd /tmp && \
 WORKDIR /app
 COPY . /app/
 
-# 明确使用root用户
-USER root
-
-EXPOSE 443
+EXPOSE 8000
 
 CMD ["/app/start.sh"]
