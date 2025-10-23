@@ -2,6 +2,8 @@
 from aiohttp import web
 import sys
 import time
+import subprocess
+import os
 
 # 立即刷新输出
 sys.stdout.flush()
@@ -41,7 +43,6 @@ vless://{uuid}@{domain}:443?type=ws&path=%2Fvless&security=tls#Koyeb-VLESS
 def create_app():
     app = web.Application()
     app.router.add_get('/', health_check)
-    app.router.add_get('/vless', health_check)  # 也响应/vless路径
     return app
 
 if __name__ == "__main__":
@@ -49,11 +50,28 @@ if __name__ == "__main__":
     print("🔄 开始启动服务...")
     print_node_info()
     
+    # 启动Xray服务（在后台）
+    print("🚀 启动Xray服务...")
+    xray_process = subprocess.Popen([
+        "/usr/local/bin/xray", 
+        "run", 
+        "-config", 
+        "/etc/xray/config.json"
+    ])
+    
+    # 等待Xray启动
+    time.sleep(2)
+    
     # 启动健康检查服务
     port = 8000
     app = create_app()
     
     print(f"🩺 健康检查服务运行在端口: {port}")
-    print("✅ 服务启动完成！")
+    print("✅ 所有服务启动完成！")
     
-    web.run_app(app, host='0.0.0.0', port=port, print=None)
+    try:
+        web.run_app(app, host='0.0.0.0', port=port, print=None)
+    finally:
+        # 确保Xray进程被终止
+        xray_process.terminate()
+        xray_process.wait()
