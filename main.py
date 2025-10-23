@@ -3,27 +3,27 @@ from aiohttp import web
 import sys
 
 async def health_check(request):
-    return web.json_response({"status": "ok", "service": "xray-vless"})
+    return web.json_response({"status": "ok", "service": "xray-vmess"})
 
 def print_node_info():
     domain = "useful-florette-u9duiccetr-daf26dc7.koyeb.app"
     uuid = "258751a7-eb14-47dc-8d18-511c3472220f"
     
     print("\n" + "="*60)
-    print("🎯 VLESS节点配置信息")
+    print("🎯 VMess节点配置信息")
     print("="*60)
     print(f"📍 地址: {domain}")
     print(f"🔢 端口: 443")
     print(f"🔑 UUID: {uuid}")
-    print(f"🌐 协议: vless")
+    print(f"🌐 协议: vmess")
     print(f"📡 传输: websocket")
-    print(f"🛣️  路径: /")
+    print(f"🛣️  路径: /ray")
     print(f"🔒 安全: tls")
     print("-"*60)
     
-    vless_link = f"vless://{uuid}@{domain}:443?type=ws&path=%2F&security=tls#Koyeb-VLESS"
+    vmess_link = f"vmess://{uuid}@{domain}:443?type=ws&path=%2Fray&security=tls#Koyeb-VMess"
     print("🔗 分享链接:")
-    print(vless_link)
+    print(vmess_link)
     print("="*60)
 
 def create_app():
