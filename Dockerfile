@@ -2,7 +2,6 @@ FROM alpine:latest
 
 RUN apk update && apk add --no-cache \
     python3 \
-    py3-pip \
     curl \
     unzip
 
@@ -16,9 +15,6 @@ RUN cd /tmp && \
 
 WORKDIR /app
 COPY . /app/
-
-# 正确安装Python依赖
-RUN pip3 install --no-cache-dir aiohttp
 
 EXPOSE 8000
 
