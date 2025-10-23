@@ -2,10 +2,9 @@ FROM alpine:latest
 
 RUN apk update && apk add --no-cache \
     python3 \
-    py3-aiohttp \
+    py3-pip \
     curl \
-    unzip \
-    ca-certificates
+    unzip
 
 # 安装xray-core
 RUN cd /tmp && \
@@ -18,7 +17,7 @@ RUN cd /tmp && \
 WORKDIR /app
 COPY . /app/
 
+# 只暴露8000端口
 EXPOSE 8000
 
-# 直接运行main.py
 CMD ["python3", "/app/main.py"]
