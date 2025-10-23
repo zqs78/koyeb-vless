@@ -1,10 +1,10 @@
 # 使用包含完整环境的基础镜像
 FROM alpine:latest
 
-# 安装必要的软件包
+# 安装必要的软件包（包括py3-aiohttp）
 RUN apk update && apk add --no-cache \
     python3 \
-    py3-pip \
+    py3-aiohttp \
     curl \
     unzip \
     ca-certificates
@@ -25,15 +25,9 @@ COPY config.json /etc/xray/config.json
 
 # 复制健康检查脚本
 COPY main.py .
-COPY requirements.txt .
 
-# 创建虚拟环境并安装Python依赖（修复pip安装问题）
-RUN python3 -m venv /app/venv && \
-    /app/venv/bin/pip install --upgrade pip && \
-    /app/venv/bin/pip install -r requirements.txt
+# 暴露端口（更新为17893端口）
+EXPOSE 17893 8000
 
-# 暴露端口
-EXPOSE 33333 8000
-
-# 启动命令（使用虚拟环境中的Python）
-CMD sh -c 'xray run -config /etc/xray/config.json & /app/venv/bin/python3 main.py'
+# 启动命令（同时运行Xray和健康检查）
+CMD sh -c 'xray run -config /etc/xray/config.json & python3 main.py'
