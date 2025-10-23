@@ -4,7 +4,7 @@
   },
   "inbounds": [
     {
-      "port": 17893, // 确保端口是17893
+      "port": 443,
       "protocol": "vless",
       "settings": {
         "clients": [
