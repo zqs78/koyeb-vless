@@ -1,6 +1,6 @@
 {
   "log": {
-    "loglevel": "warning"
+    "loglevel": "debug"
   },
   "inbounds": [
     {
@@ -20,10 +20,12 @@
         "security": "tls",
         "wsSettings": {
           "path": "/",
-          "headers": {
-            "Host": "useful-florette-u9duiccetr-daf26dc7.koyeb.app"
-          }
+          "headers": {}
         }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls"]
       }
     }
   ],
