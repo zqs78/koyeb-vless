@@ -17,7 +17,9 @@ RUN cd /tmp && \
 WORKDIR /app
 COPY . /app/
 
-# 只暴露8000端口
+# 正确安装Python依赖
+RUN pip3 install --no-cache-dir aiohttp
+
 EXPOSE 8000
 
 CMD ["python3", "/app/main.py"]
