@@ -17,11 +17,10 @@ def print_node_info():
     tcp_proxy_domain = "01.proxy.koyeb.app"
     uuid = "258751a7-eb14-47dc-8d18-511c3472220f"
     tcp_port = "17893"
-    sni = "useful-florette-u9duiccetr-daf26dc7.koyeb.app"
     
     info = f"""
 ============================================================
-🎯 VLESS节点配置信息 (确认17893端口通畅)
+🎯 VLESS节点配置信息
 ============================================================
 📍 地址: {tcp_proxy_domain}
 🔢 端口: {tcp_port}
@@ -29,11 +28,10 @@ def print_node_info():
 🌐 协议: vless
 📡 传输: websocket
 🛣️  路径: /
-🔒 安全: tls
-🔐 SNI: {sni}
+🔒 安全: none (由Koyeb处理TLS)
 ------------------------------------------------------------
 🔗 分享链接:
-vless://{uuid}@{tcp_proxy_domain}:{tcp_port}?type=ws&path=%2F&security=tls&sni={sni}#Koyeb-VLESS
+vless://{uuid}@{tcp_proxy_domain}:{tcp_port}?type=ws&path=%2F#Koyeb-VLESS
 ============================================================
 """
     print(info, flush=True)
