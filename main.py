@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from aiohttp import web
 import sys
-import os
+import time
 
 # 立即刷新输出
 sys.stdout.flush()
@@ -35,9 +35,8 @@ def print_node_info():
 vless://{uuid}@{domain}:443?type=ws&path=%2F&security=tls#Koyeb-VLESS
 ============================================================
 """
-    # 强制输出到标准错误（无缓冲）
-    print(info, file=sys.stderr, flush=True)
-    print(info, file=sys.stdout, flush=True)
+    # 强制输出
+    print(info, flush=True)
 
 def create_app():
     app = web.Application()
