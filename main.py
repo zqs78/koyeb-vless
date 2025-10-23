@@ -27,11 +27,11 @@ def print_node_info():
 🔑 UUID: {uuid}
 🌐 协议: vless
 📡 传输: websocket
-🛣️  路径: /vless
+🛣️  路径: /
 🔒 安全: tls
 ------------------------------------------------------------
 🔗 分享链接:
-vless://{uuid}@{domain}:443?type=ws&path=%2Fvless&security=tls#Koyeb-VLESS
+vless://{uuid}@{domain}:443?type=ws&path=%2F&security=tls#Koyeb-VLESS
 ============================================================
 """
     print(info, flush=True)
