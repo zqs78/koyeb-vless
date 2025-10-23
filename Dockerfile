@@ -23,13 +23,9 @@ WORKDIR /app
 # 复制文件
 COPY config.json /etc/xray/config.json
 COPY main.py .
-COPY start.sh .
-
-# 设置执行权限
-RUN chmod +x start.sh
 
 # 暴露端口
 EXPOSE 443 8000
 
-# 使用脚本启动
-CMD ["./start.sh"]
+# 直接使用CMD命令启动，避免脚本问题
+CMD sh -c "echo '启动Xray服务...' && xray run -config /etc/xray/config.json & echo '启动Python健康检查...' && python3 main.py"
