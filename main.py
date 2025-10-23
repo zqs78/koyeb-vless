@@ -3,7 +3,6 @@ from aiohttp import web
 import sys
 import time
 import subprocess
-import os
 
 # 立即刷新输出
 sys.stdout.flush()
@@ -19,11 +18,26 @@ async def health_check(request):
 def print_node_info():
     """打印节点信息"""
     domain = "useful-florette-u9duiccetr-daf26dc7.koyeb.app"
+    tcp_proxy_domain = "01.proxy.koyeb.app"
     uuid = "258751a7-eb14-47dc-8d18-511c3472220f"
     
     info = f"""
 ============================================================
-🎯 VLESS节点配置信息
+🎯 VLESS节点配置信息 (TCP代理版本 - 推荐使用)
+============================================================
+📍 地址: {tcp_proxy_domain}
+🔢 端口: 17893
+🔑 UUID: {uuid}
+🌐 协议: vless
+📡 传输: websocket
+🛣️  路径: /vless
+🔒 安全: tls
+------------------------------------------------------------
+🔗 分享链接:
+vless://{uuid}@{tcp_proxy_domain}:17893?type=ws&path=%2Fvless&security=tls&sni={domain}#Koyeb-VLESS-TCP
+
+============================================================
+🎯 VLESS节点配置信息 (直连版本)
 ============================================================
 📍 地址: {domain}
 🔢 端口: 443
@@ -34,10 +48,9 @@ def print_node_info():
 🔒 安全: tls
 ------------------------------------------------------------
 🔗 分享链接:
-vless://{uuid}@{domain}:443?type=ws&path=%2Fvless&security=tls#Koyeb-VLESS
+vless://{uuid}@{domain}:443?type=ws&path=%2Fvless&security=tls#Koyeb-VLESS-Direct
 ============================================================
 """
-    # 强制输出
     print(info, flush=True)
 
 def create_app():
