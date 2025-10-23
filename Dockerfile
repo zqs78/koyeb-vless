@@ -20,4 +20,4 @@ COPY . /app/
 
 EXPOSE 8000
 
-CMD ["/app/start.sh"]
+CMD ["python3", "/app/main.py"]
