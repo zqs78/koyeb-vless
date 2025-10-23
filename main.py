@@ -11,14 +11,14 @@ async def health_check(request):
 
 def print_node_info():
     """打印节点信息"""
-    domain = "useful-florette-u9duiccetr-daf26dc7.koyeb.app"
+    tcp_proxy = "01.proxy.koyeb.app:17893"
     uuid = "258751a7-eb14-47dc-8d18-511c3472220f"
     
     print("\n" + "="*60)
     print("🎯 VLESS节点配置信息")
     print("="*60)
-    print(f"📍 地址: {domain}")
-    print(f"🔢 端口: 443")
+    print(f"📍 地址: 01.proxy.koyeb.app")
+    print(f"🔢 端口: 17893")
     print(f"🔑 UUID: {uuid}")
     print(f"🌐 协议: vless")
     print(f"📡 传输: websocket")
@@ -26,7 +26,7 @@ def print_node_info():
     print(f"🔒 安全: tls")
     print("-"*60)
     
-    vless_link = f"vless://{uuid}@{domain}:443?type=ws&security=tls&path=%2F#Koyeb-VLESS"
+    vless_link = f"vless://{uuid}@01.proxy.koyeb.app:17893?type=ws&path=%2F&security=tls#Koyeb-VLESS"
     print("🔗 分享链接:")
     print(vless_link)
     print("="*60)
