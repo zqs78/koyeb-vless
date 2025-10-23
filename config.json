@@ -17,13 +17,9 @@
       },
       "streamSettings": {
         "network": "ws",
-        "security": "tls",
+        "security": "none",
         "wsSettings": {
           "path": "/"
-        },
-        "tlsSettings": {
-          "serverName": "useful-florette-u9duiccetr-daf26dc7.koyeb.app",
-          "alpn": ["http/1.1"]
         }
       }
     }
