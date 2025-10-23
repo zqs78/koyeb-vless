@@ -14,23 +14,26 @@ async def health_check(request):
     })
 
 def print_node_info():
-    # 使用Koyeb分配的动态端口
     tcp_proxy_domain = "01.proxy.koyeb.app"
     uuid = "258751a7-eb14-47dc-8d18-511c3472220f"
+    tcp_port = "17893"
+    sni = "useful-florette-u9duiccetr-daf26dc7.koyeb.app"
     
     info = f"""
 ============================================================
-🎯 VLESS节点配置信息
+🎯 VLESS节点配置信息 (确认17893端口通畅)
 ============================================================
 📍 地址: {tcp_proxy_domain}
-🔢 端口: 请查看Koyeb控制台分配的TCP代理端口
+🔢 端口: {tcp_port}
 🔑 UUID: {uuid}
 🌐 协议: vless
 📡 传输: websocket
 🛣️  路径: /
 🔒 安全: tls
+🔐 SNI: {sni}
 ------------------------------------------------------------
-⚠️ 注意：TCP代理端口是动态分配的，请查看Koyeb控制台获取实际端口号
+🔗 分享链接:
+vless://{uuid}@{tcp_proxy_domain}:{tcp_port}?type=ws&path=%2F&security=tls&sni={sni}#Koyeb-VLESS
 ============================================================
 """
     print(info, flush=True)
@@ -54,7 +57,6 @@ if __name__ == "__main__":
     
     time.sleep(3)
     
-    # 健康检查服务运行在8000端口
     port = 8000
     app = create_app()
     
