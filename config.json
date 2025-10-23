@@ -19,7 +19,7 @@
         "network": "ws",
         "security": "none",
         "wsSettings": {
-          "path": "/",
+          "path": "/vless",
           "headers": {}
         }
       }
