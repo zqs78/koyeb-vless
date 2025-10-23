@@ -1,6 +1,6 @@
 {
   "log": {
-    "loglevel": "warning"
+    "loglevel": "info"
   },
   "inbounds": [
     {
@@ -17,12 +17,16 @@
       },
       "streamSettings": {
         "network": "ws",
-        "security": "none",
+        "security": "tls",
         "wsSettings": {
           "path": "/",
           "headers": {
             "Host": "useful-florette-u9duiccetr-daf26dc7.koyeb.app"
           }
+        },
+        "tlsSettings": {
+          "serverName": "useful-florette-u9duiccetr-daf26dc7.koyeb.app",
+          "alpn": ["http/1.1"]
         }
       }
     }
