@@ -4,7 +4,7 @@
   },
   "inbounds": [
     {
-      "port": 443,
+      "port": 8000,
       "protocol": "vless",
       "settings": {
         "clients": [
@@ -19,10 +19,8 @@
         "network": "ws",
         "security": "none",
         "wsSettings": {
-          "path": "/",
-          "headers": {
-            "Host": "useful-florette-u9duiccetr-daf26dc7.koyeb.app"
-          }
+          "path": "/vless",
+          "headers": {}
         }
       }
     }
