@@ -18,8 +18,10 @@
         "network": "ws",
         "security": "none",
         "wsSettings": {
-          "path": "/ray",
-          "headers": {}
+          "path": "/ws",
+          "headers": {
+            "Host": "useful-florette-u9duiccetr-daf26dc7.koyeb.app"
+          }
         }
       }
     }
