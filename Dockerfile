@@ -26,8 +26,8 @@ COPY config.json /etc/xray/config.json
 # 复制健康检查脚本
 COPY main.py .
 
-# 暴露端口（更新为17893端口）
+# 暴露端口
 EXPOSE 443 8000
 
-# 启动命令（同时运行Xray和健康检查）
-CMD sh -c 'xray run -config /etc/xray/config.json & python3 main.py'
+# 启动命令（先启动main.py，再启动Xray）
+CMD sh -c 'python3 main.py & xray run -config /etc/xray/config.json'
