@@ -7,8 +7,6 @@ services:
     tcp:
       proxy:
         enabled: true
-      target:
-        port: 8000
   scaler:
     min: 1
     max: 1
