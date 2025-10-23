@@ -18,8 +18,7 @@ RUN cd /tmp && \
 WORKDIR /app
 COPY . /app/
 
-# 使用root用户运行（避免端口权限问题）
-USER root
+EXPOSE 8000 9000
 
-EXPOSE 8000
-CMD sh -c "echo '启动Xray服务...' && /usr/local/bin/xray run -config /app/config.json & echo '启动健康检查...' && python3 /app/main.py"
+# 使用脚本启动服务
+CMD ["/app/start.sh"]
