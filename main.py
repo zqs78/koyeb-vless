@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from aiohttp import web
 import sys
+import time
+import subprocess
 
 # 立即刷新输出
 sys.stdout.flush()
@@ -27,11 +29,11 @@ def print_node_info():
 🔑 UUID: {uuid}
 🌐 协议: vless
 📡 传输: websocket
-🛣️  路径: /
+🛣️  路径: /vless
 🔒 安全: tls
 ------------------------------------------------------------
 🔗 分享链接:
-vless://{uuid}@{domain}:443?type=ws&path=%2F&security=tls#Koyeb-VLESS
+vless://{uuid}@{domain}:443?type=ws&path=%2Fvless&security=tls#Koyeb-VLESS
 ============================================================
 """
     print(info, flush=True)
@@ -46,8 +48,8 @@ if __name__ == "__main__":
     print("🔄 开始启动服务...")
     print_node_info()
     
-    # 启动健康检查服务
-    port = 8080
+    # 启动健康检查服务（在8000端口）
+    port = 8000
     app = create_app()
     
     print(f"🩺 健康检查服务运行在端口: {port}")
