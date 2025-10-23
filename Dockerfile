@@ -25,7 +25,15 @@ COPY config.json /etc/xray/config.json
 COPY main.py .
 
 # 暴露端口
-EXPOSE 443 8000
+EXPOSE 8000
 
-# 直接使用Python启动
-CMD ["python3", "/app/main.py"]
+# 创建启动脚本
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'echo "启动Xray服务..."' >> /app/start.sh && \
+    echo '/usr/local/bin/xray run -config /etc/xray/config.json &' >> /app/start.sh && \
+    echo 'echo "启动Python健康检查..."' >> /app/start.sh && \
+    echo 'python3 /app/main.py' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
+# 使用启动脚本
+CMD ["/app/start.sh"]
