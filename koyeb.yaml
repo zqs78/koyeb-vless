@@ -14,7 +14,7 @@ services:
       proxy:
         enabled: true
       target:
-        port: 17893
+        port: 443
   scaler:
     min: 1
     max: 1
