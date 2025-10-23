@@ -19,41 +19,16 @@
         "network": "ws",
         "security": "none",
         "wsSettings": {
-          "path": "/vless",
+          "path": "/",
           "headers": {}
         }
       }
-    },
-    {
-      "port": 8000,
-      "protocol": "dokodemo-door",
-      "settings": {
-        "address": "127.0.0.1",
-        "port": 8080,
-        "network": "tcp"
-      },
-      "tag": "health_check_proxy"
     }
   ],
   "outbounds": [
     {
       "protocol": "freedom",
-      "settings": {},
-      "tag": "direct"
-    },
-    {
-      "protocol": "freedom",
-      "settings": {},
-      "tag": "health_check_out"
+      "settings": {}
     }
-  ],
-  "routing": {
-    "rules": [
-      {
-        "type": "field",
-        "inboundTag": ["health_check_proxy"],
-        "outboundTag": "health_check_out"
-      }
-    ]
-  }
+  ]
 }
