@@ -1,5 +1,3 @@
 #!/bin/sh
-echo "启动Xray服务..."
-/usr/local/bin/xray run -config /etc/xray/config.json &
-echo "启动Python健康检查..."
+echo "启动Python健康检查服务..."
 python3 /app/main.py
