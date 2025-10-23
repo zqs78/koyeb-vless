@@ -25,7 +25,7 @@ COPY config.json /etc/xray/config.json
 COPY main.py .
 
 # 暴露端口
-EXPOSE 443 8000
+EXPOSE 8000
 
 # 创建启动脚本
 RUN echo '#!/bin/sh' > /app/start.sh && \
