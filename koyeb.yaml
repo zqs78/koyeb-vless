@@ -2,7 +2,5 @@ name: koyeb-vless
 services:
 - name: app
   ports:
-  - port: 443
-    protocol: TCP
-  - port: 8000  
+  - port: 8000
     protocol: HTTP
