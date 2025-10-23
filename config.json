@@ -23,14 +23,7 @@
         },
         "tlsSettings": {
           "serverName": "useful-florette-u9duiccetr-daf26dc7.koyeb.app",
-          "alpn": ["http/1.1"],
-          "certificates": [
-            {
-              "usage": "encipherment",
-              "certificateFile": "",
-              "keyFile": ""
-            }
-          ]
+          "alpn": ["http/1.1"]
         }
       }
     }
