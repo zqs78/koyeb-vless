@@ -20,4 +20,5 @@ COPY . /app/
 
 EXPOSE 8000
 
+# 直接运行main.py
 CMD ["python3", "/app/main.py"]
