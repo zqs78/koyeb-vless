@@ -15,6 +15,8 @@ RUN cd /tmp && \
 WORKDIR /app
 COPY . /app/
 
+# 使用环境变量端口，避免低端口问题
+ENV PORT=8000
 EXPOSE 8000
 
 CMD ["/app/start.sh"]
