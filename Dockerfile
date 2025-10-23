@@ -1,7 +1,7 @@
 # 使用包含完整环境的基础镜像
 FROM alpine:latest
 
-# 安装必要的软件包（包括py3-aiohttp）
+# 安装必要的软件包
 RUN apk update && apk add --no-cache \
     python3 \
     py3-aiohttp \
@@ -9,7 +9,7 @@ RUN apk update && apk add --no-cache \
     unzip \
     ca-certificates
 
-# 安装xray-core（从官方release下载）
+# 安装xray-core
 RUN cd /tmp && \
     curl -L -o xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip && \
     unzip xray.zip && \
@@ -20,14 +20,16 @@ RUN cd /tmp && \
 # 创建工作目录
 WORKDIR /app
 
-# 复制配置文件
+# 复制文件
 COPY config.json /etc/xray/config.json
-
-# 复制健康检查脚本
 COPY main.py .
+COPY start.sh .
+
+# 设置执行权限
+RUN chmod +x start.sh
 
 # 暴露端口
 EXPOSE 443 8000
 
-# 启动命令（先启动main.py，再启动Xray）
-CMD sh -c 'python3 main.py & xray run -config /etc/xray/config.json'
+# 使用脚本启动
+CMD ["./start.sh"]
